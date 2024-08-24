@@ -4,7 +4,7 @@ import { sendEmail } from './email.js'; // Make sure the path is correct
 export async function sendVerificationEmail(user) {
   const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-  const verificationLink = ` http://localhost:5001/api/users/verify/${verificationToken}`;
+  const verificationLink = ` https://pc-backend-17gq.onrender.com/${verificationToken}`;
 
   const emailContent = `
     <h2>Thank you for registering to PeersCart!</h2>
