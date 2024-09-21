@@ -5,7 +5,7 @@ export async function sendVerificationEmail(user) {
   const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
   // Ensure this is the correct route on the backend for email verification
-  const verificationLink = `http://localhost:5001/api/users/verify/${verificationToken}`;
+  const verificationLink = `${process.env.API_URL}/api/users/verify/${verificationToken}`;
 
   const emailContent = `
     <h2>Thank you for registering to PeersCart!</h2>

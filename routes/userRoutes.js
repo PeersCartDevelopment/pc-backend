@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { sendEmail } from './email.js'; // Ensure this path is correct
-import { getApiUrl } from '../../frontend/util/getApiUrl.js';
 
 const router = express.Router();
 
@@ -52,7 +51,7 @@ router.post('/register', async (req, res) => {
 const sendVerificationEmail = async (user) => {
   const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-  const verificationLink = `${getApiUrl()}/api/users/verify/${verificationToken}`;
+  const verificationLink = `${process.env.API_URL}/api/users/verify/${verificationToken}`;
 
   const emailContent = `
     <h2>Thank you for registering to PeersCart!</h2>
@@ -159,7 +158,7 @@ router.post('/request-delete-account', async (req, res) => {
 
     // Create deletion token and link
     const deletionToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    const deleteLink = `http://localhost:5001/api/users/delete-account/${deletionToken}`;
+    const deleteLink = `${process.env.API_URL}/api/users/delete-account/${deletionToken}`;
 
     const emailSubject = 'Delete your account';
     const emailContent = `<p>Click <a href="${deleteLink}">here</a> to delete your account.</p>`;
