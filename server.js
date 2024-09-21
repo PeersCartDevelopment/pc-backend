@@ -9,9 +9,17 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+const allowedOrigins = ['http://localhost:5173', "https://peerscart.netlify.app"];
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
