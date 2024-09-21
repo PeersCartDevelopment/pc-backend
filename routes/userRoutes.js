@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { sendEmail } from './email.js'; // Ensure this path is correct
-
+import process from "process"
 const router = express.Router();
 
 // User Registration

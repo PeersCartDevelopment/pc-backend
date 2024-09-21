@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { sendEmail } from './email.js'; // Adjust the path accordingly
+import process from "process"
 
 export async function sendVerificationEmail(user) {
   const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });

@@ -11,6 +11,7 @@
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "googleapis": "^140.0.1",
@@ -19,5 +20,11 @@
     "nodemailer": "^6.9.14",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.11.0",
+    "eslint": "^9.11.0",
+    "eslint-plugin-react": "^7.36.1",
+    "globals": "^15.9.0"
   }
 }
