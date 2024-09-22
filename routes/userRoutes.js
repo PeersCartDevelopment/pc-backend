@@ -25,14 +25,6 @@ router.post('/register', async (req, res) => {
     console.log('Hashed password:', hashedPassword); // Debug log
 
     // Create new user
-    // const newUser = new User({
-    //   username,
-    //   email,
-    //   password: hashedPassword,  // Store hashed password
-    //   isVerified: false,
-    // });
-
-    // await newUser.save();
     const newUser = await User.create({ username, email, password: hashedPassword });
     console.log('New user saved:', newUser); // Debug log
 
@@ -124,7 +116,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     console.log('Login successful, token generated');
 
-    res.status(200).json({ token,user });
+    res.status(200).json({ token, user });
   } catch (error) {
     console.error('Server error:', error); // Log the error for debugging
     res.status(500).json({ message: 'Server error', error });
@@ -173,7 +165,7 @@ router.post('/request-delete-account', async (req, res) => {
 });
 
 // Delete Account Route
-router.get('/delete-account/:token', async (req, res) => {
+router.delete('/delete-account/:token', async (req, res) => {
   try {
     const { token } = req.params;
 
