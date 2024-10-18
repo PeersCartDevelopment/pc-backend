@@ -151,7 +151,7 @@ router.post('/request-delete-account', async (req, res) => {
 });
 
 // Delete Account Route
-router.delete('/delete-account/:token', async (req, res) => {
+router.get('/delete-account/:token', async (req, res) => {
   try {
     const { token } = req.params;
 
