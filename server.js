@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:5173', 'https://peerscart.netlify.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://peerscart.netlify.app', 'https://peerscart.store'];
 
 app.use(
   cors({
