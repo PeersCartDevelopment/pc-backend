@@ -16,13 +16,13 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAz9nMYQDWjBQY5fp79PicKPUvNaq79Ib7ckjmkxlErZQPZLbL\n4pF9smoX7UdkgmRf5d4HmhbSoJh1T5312ZuFK0sGJSXdmjO70CdptGxp6QwAURY9\n1p0HV6R89ypCI1/MHa+MZaS02/mJKoWqU0E8HovQ6L6NxFnN8fwehiOjUeCASxJq\n306+6jOppHhAFBao48iK4REWpKbZ+/kXcWgff5q6NoTGwZX8RCz3fSvV6fmbjOai\nJ9dxnUdr7fLykTxpXOZ+Oe48oE3CPKDHje0aBZ7HNSv2UzrIN7kyKAXsKTM0Rj/8\nvs3llgjCD1MAJ43Flr6NgFDsNKNpG1sl8sixfQIDAQABAoIBAAgT69h9QtlQ0qLl\neDnOC6uf08TfLMzVDiKj6Kog2kVwsqR0Yjoc82iirOlg0+wpYHy7g0oexvLM2gpN\nFkftvmAvWz7IWPNsPUlarsX/TKJs//omxiJ4GdfzIZQthUKAr5sbvnYYz5qY+Ra4\n+SShLWf2gRj6huHxp4pXBQyrh+ZfpEq/2JbUmr9OQccsFu2DVfvE9HMydXc2pCy5\n8Vh2fZIeA4bRkksxDuKgnrMEMSr+b2zRTm/hLPTQlDxPxdyuT1nYL/mjteYDJgBM\nTyVm/8gMn+4SPOZTGuvAxIocWj+oqTTR4hzE2CqQQXyaLdYxx7hnrn1w4v8pHXlm\nEfISPEECgYEA8ILaY9CFhPa4z6lPtWF5t5/MLe4q6IM7hP2/c0yDbFcwvgSgf6/q\nzt1mHkZfxGmYlxLhBC1ME7llxf1R153/yv+f1rIfoWfNdm3qislq4/BQPLS/fMc3\nBjuwcaiLujVn9rV7xtnLOgKHi++YSLoJDPv2ktx4a0t/6DDEQPStYhECgYEA3Tx+\n2naxv9cI9vxG/IPzIWZEGv+sUfH3tL4WdI/aWAjLhBoPlhgQ4tq3CRfzjOjZYwgR\n9ExmGAlRaSRkLbMxwqISTn7kqh/FWG1JPUyVytVxHmINftFED0qQaV4eZJvBgSkh\nl2y0LZh84mm9FatFNQSUBpakF/kbzQ0198YarK0CgYArX73Y4GMj7oa31JXuZQzZ\nY7Uj117fncMfIc/kEDlnUXYV3qm/PU+ATQc8kH524oBFRn9UDIM6z2WeRif7VaAq\n0NzXkDoKFrlEEWCJ9PcU8mLV/9bEvvyaYCta5AWG6Fi+ck5HN0HiTVB6mRQCkaJO\nOCZop+ADoZMIobrS6A1YsQKBgGjJW4gcCgrEThG14eV+lezu5DkpejQB+IJaOoaR\nECj8WXDDazh7Q5w/Xcxn1MqcC0L1spNUkFK4LyAuxWhD5MC8RRF61tGhZLaCZNss\n6BH/UKnEZYH4mlTny0is9JZQk7GairePHDQwco5G6PFXgtsexQHt3eEg80MHC9XE\ntiOtAoGBANtscrjQsFI8k6kERg97i8BkjU762DqcQdmrn5MsXCgzBYb936eXVOfl\nk7ImZFc0ol1rSbg9hZbmRyRqJo3vllc7L5gyfTbCUz/JncwT0GHmVOnAk+tcP60w\n5fyr1h7VqnEmFCeECBflxe+P+sA6ANzPlDuAAzGSq1j05GLf+wZ7\n-----END RSA PRIVATE KEY-----" > ~/.ssh/id_rsa
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
       - name: Deploy to EC2
         run: |
-          ssh -o "StrictHostKeyChecking=no" ubuntu@13.210.211.232 << 'EOF'
+          ssh -o "StrictHostKeyChecking=no" ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             cd pc-backend  # Change this to your app's directory
             git pull origin main  # Change this to your target branch
             npm install  # If using npm, or run your specific build command
