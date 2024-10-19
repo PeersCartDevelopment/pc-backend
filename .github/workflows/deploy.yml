@@ -20,11 +20,15 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
-      - name: Deploy to EC2
+      - name: Setup Node.js with nvm
         run: |
-          ssh -o "StrictHostKeyChecking=no" ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            cd pc-backend  # Change this to your app's directory
-            git pull origin main  # Change this to your target branch
-            npm install  # If using npm, or run your specific build command
-            pm2 restart PeersCart  # Replace with your app's PM2 process name
+          ssh -o "StrictHostKeyChecking=no" ubuntu@13.210.211.232 << 'EOF'
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install node
+            npm install -g pm2
+            cd pc-backend
+            npm install
+            pm2 restart PeersCart
           EOF
