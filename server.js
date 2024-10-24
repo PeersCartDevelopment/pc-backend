@@ -31,11 +31,6 @@ app.use(
 // Mount the user routes
 app.use('/api/users', userRouter);
 
-// Global Health Check (if needed)
-app.get('/health', (req, res) => {
-  res.status(200).json({ message: 'API is running well!' });
-});
-
 // Connect to MongoDB
 const connectDB = async () => {
   try {
