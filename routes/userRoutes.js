@@ -174,7 +174,7 @@ router.get('/delete-account/:token', async (req, res) => {
 
 // Health Check Route
 router.get('/health', (req, res) => {
-  res.status(200).json({ message: 'API is up and running!' });
+  res.status(200).json({ message: 'API is working well!' });
 });
 
 export default router;
