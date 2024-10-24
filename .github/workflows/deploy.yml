@@ -23,7 +23,7 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@13.210.211.232 << 'EOF'
-            # Ensure Node.js and PM2 are installed
+            # Ensure NVM, Node.js, and PM2 are installed
             if ! command -v nvm &> /dev/null; then
               curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
               export NVM_DIR="$HOME/.nvm"
@@ -32,7 +32,7 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             
-            # Install Node.js (version is optional)
+            # Install Node.js (version is optional, but 'node' will install latest)
             nvm install node
             nvm use node
             
@@ -40,16 +40,16 @@ jobs:
             if ! command -v pm2 &> /dev/null; then
               npm install -g pm2
             fi
-            
-            # Navigate to the project directory
-            cd /path/to/your/pc-backend   # Make sure to update this to the correct directory
+
+            # Navigate to the correct project directory
+            cd /home/ubuntu/pc-backend  # Update this to your actual project path
             
             # Pull the latest code from GitHub
-            git pull origin main  # or the branch you're working on
+            git pull origin main  # Change 'main' if you're using a different branch
             
             # Install dependencies
             npm install
             
             # Restart the application with PM2
-            pm2 restart PeersCart || pm2 start npm --name PeersCart -- start  # Start if it's not running
+            pm2 restart PeersCart || pm2 start npm --name PeersCart -- start  # Start if not running
           EOF
