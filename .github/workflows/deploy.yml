@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Change this to your target branch
+      - main  # Change to your target branch if needed
 
 jobs:
   deploy:
@@ -20,15 +20,36 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
-      - name: Setup Node.js with nvm
+      - name: Deploy to EC2
         run: |
-          ssh -o "StrictHostKeyChecking=no" ubuntu@13.210.211.232 << 'EOF'
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+          ssh -o StrictHostKeyChecking=no ubuntu@13.210.211.232 << 'EOF'
+            # Ensure Node.js and PM2 are installed
+            if ! command -v nvm &> /dev/null; then
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+              export NVM_DIR="$HOME/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            fi
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
+            # Install Node.js (version is optional)
             nvm install node
-            npm install -g pm2
-            cd pc-backend
+            nvm use node
+            
+            # Ensure PM2 is installed
+            if ! command -v pm2 &> /dev/null; then
+              npm install -g pm2
+            fi
+            
+            # Navigate to the project directory
+            cd /path/to/your/pc-backend   # Make sure to update this to the correct directory
+            
+            # Pull the latest code from GitHub
+            git pull origin main  # or the branch you're working on
+            
+            # Install dependencies
             npm install
-            pm2 restart PeersCart
+            
+            # Restart the application with PM2
+            pm2 restart PeersCart || pm2 start npm --name PeersCart -- start  # Start if it's not running
           EOF
