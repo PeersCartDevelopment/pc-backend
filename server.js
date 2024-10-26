@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:5173', 'http://peerscart-frontend.s3-website.ap-south-1.amazonaws.com', 'https://peerscart.store'];
+const allowedOrigins = ['http://localhost:5173', 'https://d31mh2zg6ljbx9.cloudfront.net', 'https://peerscart.store'];
 
 app.use(
   cors({
