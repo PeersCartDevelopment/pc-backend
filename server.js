@@ -15,6 +15,7 @@ const allowedOrigins = [
   'http://localhost:5173',  // Local development URL (non-HTTPS)
   'https://peerscart.store', // Production frontend URL
   'https://d31mh2zg6ljbx9.cloudfront.net', // CloudFront URL
+  'https://peerscart.netlify.app', // Netlify URL
 ];
 
 // CORS configuration
