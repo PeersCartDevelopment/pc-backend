@@ -9,23 +9,29 @@ dotenv.config();
 
 const app = express();
 
+// Allowed Origins - Include both localhost and production URLs
+const allowedOrigins = [
+  'http://localhost:5173', // Local development URL
+  'https://peerscart.store', // Production frontend URL
+  'https://d31mh2zg6ljbx9.cloudfront.net', // CloudFront URL
+];
+
 app.use(express.json());
 
-const allowedOrigins = ['http://localhost:5173', 'https://d31mh2zg6ljbx9.cloudfront.net', 'https://peerscart.store'];
-
+// CORS configuration
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // For Postman or other tools without origin
       if (allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error('Not allowed by CORS')); // This ensures only allowed origins can make requests
       }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Add any other necessary headers
-    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add any other headers as necessary
+    credentials: true, // If you are using cookies/sessions
   })
 );
 
@@ -48,6 +54,7 @@ const connectDB = async () => {
 
 connectDB();
 
+// Start the server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server is running on: http://localhost:${PORT}`);
