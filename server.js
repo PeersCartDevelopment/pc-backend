@@ -24,6 +24,7 @@ app.use(
       }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Add any other necessary headers
     credentials: true,
   })
 );
@@ -49,5 +50,5 @@ connectDB();
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-  console.log(`Server is running on: ${process.env.API_URL}`);
+  console.log(`Server is running on: http://localhost:${PORT}`);
 });
